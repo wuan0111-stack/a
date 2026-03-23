@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[您的名字] - 專業個人主頁</title>
+    <style>
+        /* 全域樣式 - 模仿 LinkedIn 的灰白藍色調 */
+        body {
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", "Fira Sans", Ubuntu, Oxygen, "Oxygen Sans", Cantarell, "Droid Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji", sans-serif;
+            background-color: #f3f2ef; /* LinkedIn 背景灰 */
+            color: rgba(0,0,0,0.9);
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        /* 頁面容器 */
+        .container {
+            max-width: 1128px; /* LinkedIn 標準寬度 */
+            margin: 20px auto;
+            padding: 0 20px;
+            padding-bottom: 40px;
+        }
+
+        /* 通用卡片樣式 */
+        .card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid #e0e0e0;
+        }
+
+        /* --- 個人資訊區塊 (Header) --- */
+        .header-card {
+            position: relative;
+        }
+
+        .cover-photo {
+            height: 200px;
+            background: linear-gradient(135deg, #a0b4b7 0%, #dbe7e9 100%); /* 預設封面色 */
+            background-size: cover;
+            background-position: center;
+        }
+
+        .profile-details {
+            padding: 0 24px 24px 24px;
+            position: relative;
+            margin-top: -75px; /* 讓頭像向上偏移 */
+        }
+
+        /* 個人相片 */
+        .profile-pic {
+            width: 152px;
+            height: 152px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            box-shadow: 0 0 0 1px rgba(0,0,0,0.1);
+            object-fit: cover;
+            background-color: #fff;
+        }
+
+        .info-section {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .basic-info {
+            flex: 1;
+        }
+
+        .basic-info h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .basic-info .headline {
+            font-size: 16px;
+            color: rgba(0,0,0,0.9);
+            margin: 4px 0;
+        }
+
+        .basic-info .location {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            margin: 4px 0 12px 0;
+        }
+
+        .contact-info {
+            font-size: 14px;
+            color: #0a66c2; /* LinkedIn 藍 */
+            font-weight: 600;
+        }
+        
+        .contact-info a {
+            text-decoration: none;
+            color: #0a66c2;
+        }
+        
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        /* 行動按鈕 */
+        .action-buttons {
+            margin-top: 16px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary {
+            background-color: #0a66c2;
+            color: #fff;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #004182;
+        }
+
+        .btn-secondary {
+            background-color: #fff;
+            color: #0a66c2;
+            border: 1px solid #0a66c2;
+            margin-left: 8px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #f0f7fe;
+            border-width: 2px;
+            padding: 5px 15px; /* 保持按鈕大小一致 */
+        }
+
+        /* --- 內容區塊通用樣式 --- */
+        .section-title {
+            font-size: 20px;
+            font-weight: 600;
+            padding: 24px 24px 0 24px;
+            margin: 0;
+        }
+
+        .section-content {
+            padding: 16px 24px 24px 24px;
+        }
+
+        /* 關於 */
+        .about-text {
+            font-size: 14px;
+            color: rgba(0,0,0,0.9);
+            white-space: pre-line; /* 保留換行 */
+        }
+
+        /* 經歷與學歷項目 */
+        .entry-item {
+            display: flex;
+            padding-bottom: 16px;
+            margin-bottom: 16px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .entry-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .logo-placeholder {
+            width: 48px;
+            height: 48px;
+            background-color: #eee;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #999;
+            font-weight: bold;
+        }
+
+        .entry-details h3 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .entry-details .subtitle {
+            font-size: 14px;
+            margin: 2px 0;
+        }
+
+        .entry-details .date-range {
+            font-size: 14px;
+            color: rgba(0,0,0,0.6);
+            margin: 2px 0;
+        }
+
+        .entry-details .description {
+            font-size: 14px;
+            margin-top: 8px;
+            color: rgba(0,0,0,0.9);
+        }
+
+        /* 技能 */
+        .skills-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .skill-item {
+            background-color: #fff;
+            border: 1px solid rgba(0,0,0,0.6);
+            color: rgba(0,0,0,0.6);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        /* 頁尾 */
+        footer {
+            text-align: center;
+            font-size: 12px;
+            color: rgba(0,0,0,0.6);
+            margin-top: 20px;
+        }
+
+        /* 手機版適應 (Responsive) */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 10px;
+            }
+            .cover-photo {
+                height: 120px;
+            }
+            .profile-details {
+                margin-top: -50px;
+                text-align: center;
+            }
+            .profile-pic {
+                width: 100px;
+                height: 100px;
+            }
+            .info-section {
+                flex-direction: column;
+                align-items: center;
+            }
+            .contact-info {
+                margin-top: 10px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <header class="card header-card">
+        <div class="cover-photo"></div>
+        
+        <div class="profile-details">
+            <https://www.google.com/imgres?q=doraemon&imgurl=https%3A%2F%2Fcdn11.bigcommerce.com%2Fs-k0hjo2yyrq%2Fimages%2Fstencil%2F1280x1280%2Fproducts%2F1003%2F497%2FDoraemon_Story_of_Seasons_Standard_Edition_Product_Banner__23449.1726747609.jpg%3Fc%3D1&imgrefurl=https%3A%2F%2Fstore.bandainamcoent.eu%2Fdoraemon-story-of-seasons-digital-full-game-pc-standard-edition%2F&docid=SnhvN3as1o6EbM&tbnid=JekO4mSrNbx7HM&vet=12ahUKEwim-rjBsbWTAxXPU_UHHe_fHNYQnPAOegQISRAB..i&w=1280&h=427&hcb=2&ved=2ahUKEwim-rjBsbWTAxXPU_UHHe_fHNYQnPAOegQISRAB>
+            
+            <div class="info-section">
+                <div class="basic-info">
+                    <h1>[武氏安]</h1>
+                    <p class="headline">[填寫您的專業職稱，例如：資深軟體工程師 | 全端開發 | 專案管理]</p>
+                    <p class="location">[城市，國家]</p>
+                    <div class="action-buttons">
+                        <a href="mailto:your.email@email.com" class="btn btn-primary">與我聯繫</a>
+                        <a href="#" class="btn btn-secondary">下載 CV</a>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <p>📧 <a href="mailto:your.email@email.com">[your.email@email.com]</a></p>
+                    <p>📞 [您的電話]</p>
+                    <p>🌐 <a href="#" target="_blank">個人網站/作品集</a></p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="card">
+        <h2 class="section-title">關於</h2>
+        <div class="section-content">
+            <p class="about-text">
+                [請在這裡輸入您的專業簡介。
+                
+                這是一個展示您核心能力、多年經驗和職業目標的好機會。模仿 LinkedIn 的風格，使用第一人稱或專業的第三人稱撰寫，保持精煉有力。
+                
+                例如：擁有 5 年以上經驗的數位行銷專家，專注於 SEO、SEM 和數據分析。成功幫助超過 20 家企業提升 50% 的線上轉化率。熱衷於探索創新的行銷策略，並致力於利用數據驅動商業決策。]
+            </p>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2 class="section-title">工作經歷</h2>
+        <div class="section-content">
+            
+            <div class="entry-item">
+                <div class="logo-placeholder">公</div> <div class="entry-details">
+                    <h3>[職稱，例如：專案經理]</h3>
+                    <p class="subtitle">[公司名稱]</p>
+                    <p class="date-range">[開始年份] - [結束年份或「至今」]</p>
+                    <div class="description">
+                        <ul>
+                            <li>[描述您的主要職責和成就。]</li>
+                            <li>[使用量化數據，例如：帶領 5 人團隊完成 A 專案，節省成本 15%。]</li>
+                            <li>[負責產品規劃與跨部門溝通協調。]</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="entry-item">
+                <div class="logo-placeholder">公</div>
+                <div class="entry-details">
+                    <h3>[上一個職稱]</h3>
+                    <p class="subtitle">[前公司名稱]</p>
+                    <p class="date-range">[開始年份] - [結束年份]</p>
+                    <div class="description">
+                        <p>[簡述在職期間的貢獻與學習。]</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="card">
+        <h2 class="section-title">學歷</h2>
+        <div class="section-content">
+            
+            <div class="entry-item">
+                <div class="logo-placeholder">學</div> <div class="entry-details">
+                    <h3>[大學/學校名稱]</h3>
+                    <p class="subtitle">[學位名稱，例如：資訊工程學士]</p>
+                    <p class="date-range">[入學年份] - [畢業年份]</p>
+                    <p class="description">[可填寫主修課程、書卷獎或社團經歷等。]</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="card">
+        <h2 class="section-title">技能</h2>
+        <div class="section-content">
+            <ul class="skills-list">
+                <li class="skill-item">[專案管理]</li>
+                <li class="skill-item">[Python]</li>
+                <li class="skill-item">[數據分析]</li>
+                <li class="skill-item">[跨部門溝通]</li>
+                <li class="skill-item">[UI/UX 設計]</li>
+                <li class="skill-item">[數位行銷]</li>
+                <li class="skill-item">[HTML/CSS]</li>
+                <li class="skill-item">[SQL]</li>
+                </ul>
+        </div>
+    </section>
+
+    <footer>
+        <p>© [您的年份] [您的名字]. 版權所有.</p>
+    </footer>
+
+</div>
+
+</body>
+</html>
